@@ -1,0 +1,88 @@
+`<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #map {
+      width: 1024px;
+      height: 1024px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .block {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #ccc;
+    }
+
+    .mark {
+      background: blue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="map"></div>
+
+</body>
+
+</html>
+<script>
+  let map = []
+  if(localStorage['map']!=undefined){
+    map=localStorage['map'].split(',')
+  }
+  console.log(map)
+  for (let i = 1; i <= 61; i++) {
+
+    for (let j = 1; j <= 61; j++) {
+
+      let div = document.createElement('div')
+      if(map.indexOf(`${i}-${j}`)>=0){
+
+        div.setAttribute('class', 'block mark')
+      }else{
+        div.setAttribute('class', 'block')
+
+      }
+      div.setAttribute('data-id', `${i}-${j}`)
+      $("#map").append(div)
+
+    }
+
+  }
+
+  $(".block").on("click", function () {
+    let id = $(this).data("id")
+    if(map.indexOf(id)>=0){
+
+      map.splice(map.indexOf(id),1)
+    }else{
+      map.push(id)
+
+    }
+    $(this).toggleClass("mark")
+    localStorage['map']=map
+  })
+
+
+</script>
